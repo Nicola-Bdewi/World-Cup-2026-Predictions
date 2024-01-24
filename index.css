@@ -1,0 +1,17 @@
+body{
+    background-color: #FCFCFC;
+}
+.border-right {
+    border-right: 1px solid #dee2e6;
+}
+.custom-table {
+    margin-top: 100px; 
+    width: 50%;
+}
+.custom-input {
+    width: 20%;
+}
+.points-card{
+    margin: auto;
+    width: 20%;
+}
