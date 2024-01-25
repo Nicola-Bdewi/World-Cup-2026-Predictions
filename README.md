@@ -35,7 +35,6 @@ The admin will enter the results after the matches then the points will be caluc
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * <img src="./icons/ExpressJS-Dark.svg" width="48">
 * <img src="./icons/PostgreSQL-Dark.svg" width="48">
