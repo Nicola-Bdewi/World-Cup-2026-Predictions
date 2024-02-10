@@ -35,16 +35,12 @@ The admin will enter the results after the matches then the points will be caluc
 
 ### Built With
 
-
-* <img src="./icons/ExpressJS-Dark.svg" width="48">
-* <img src="./icons/PostgreSQL-Dark.svg" width="48">
-* <img src="./icons/JQuery.svg" width="48">
-* <img src="./icons/Bootstrap.svg" width="48"> 
+* <img src="./icons/ExpressJS-Dark.svg" width="48"> * <img src="./icons/PostgreSQL-Dark.svg" width="48"> * <img src="./icons/JQuery.svg" width="48"> * <img src="./icons/Bootstrap.svg" width="48"> 
 
 <!-- GETTING STARTED -->
 ### Installation
 
-1- Open the db.js and write the password of your database, if any.
+1- Open the db.js and write the password of your database, if any. <br>
 2- Create the following tables:
 
 ```
@@ -166,6 +162,49 @@ BEGIN
   END;
 END;
 ```
+And the following materialized views: 
+```
+CREATE MATERIALIZED VIEW IF NOT EXISTS public.match_results
+TABLESPACE pg_default
+AS
+ SELECT soccermatches.user_id,
+        CASE
+            WHEN (soccermatches.teama_score + soccermatches.teama_score) > (soccermatches.teamb_score + soccermatches.teamb_score) THEN 'Team A'::text
+            WHEN (soccermatches.teama_score + soccermatches.teama_score) < (soccermatches.teamb_score + soccermatches.teamb_score) THEN 'Team B'::text
+            ELSE 'Draw'::text
+        END AS winner
+   FROM soccermatches
+WITH DATA;
+
+ALTER TABLE IF EXISTS public.match_results
+    OWNER TO postgres;
+```
+```
+CREATE MATERIALIZED VIEW IF NOT EXISTS public.user_points
+TABLESPACE pg_default
+AS
+ SELECT soccermatches.user_id,
+    sum(
+        CASE
+            WHEN soccermatches.teama_score = (( SELECT admin.teama_score
+               FROM admin
+              WHERE admin.teama_id = soccermatches.teama_id AND admin.teamb_id = soccermatches.teamb_id)) AND soccermatches.teamb_score = (( SELECT admin.teamb_score
+               FROM admin
+              WHERE admin.teama_id = soccermatches.teama_id AND admin.teamb_id = soccermatches.teamb_id)) THEN 3
+            WHEN soccermatches.winner = (( SELECT admin.winner
+               FROM admin
+              WHERE admin.teama_id = soccermatches.teama_id AND admin.teamb_id = soccermatches.teamb_id)) THEN 1
+            ELSE 0
+        END) AS points
+   FROM soccermatches
+  GROUP BY soccermatches.user_id
+WITH DATA;
+
+ALTER TABLE IF EXISTS public.user_points
+    OWNER TO postgres;
+```
+
+
 
 3- Run the project in the cmd by writing
   ```Node FoldarPath/server.js``` 
