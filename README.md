@@ -35,7 +35,7 @@ The admin will enter the results after the matches then the points will be caluc
 
 ### Built With
 
-* <img src="./icons/ExpressJS-Dark.svg" width="48"> * <img src="./icons/PostgreSQL-Dark.svg" width="48"> * <img src="./icons/JQuery.svg" width="48"> * <img src="./icons/Bootstrap.svg" width="48"> 
+<img src="./icons/ExpressJS-Dark.svg" width="48">   <img src="./icons/PostgreSQL-Dark.svg" width="48">   <img src="./icons/JQuery.svg" width="48">   <img src="./icons/Bootstrap.svg" width="48"> 
 
 <!-- GETTING STARTED -->
 ### Installation
